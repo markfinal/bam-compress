@@ -1,6 +1,7 @@
 using Bam.Core;
 namespace zlib
 {
+    [Bam.Core.ModuleGroup("Thirdparty/Zlib")]
     class ZLib :
         C.StaticLibrary
     {
@@ -10,6 +11,7 @@ namespace zlib
         {
             base.Init(parent);
 
+            this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCSourceContainer("$(packagedir)/*.c");
 
             this.PublicPatch((settings, appliedTo) =>
@@ -23,10 +25,12 @@ namespace zlib
 
             source.PrivatePatch(settings =>
                 {
+                    var compiler = settings as C.ICommonCompilerSettings;
                     var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
                     if (null != visualCCompiler)
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
+                        compiler.PreprocessorDefines.Add("_WINDOWS");
                     }
                 });
         }
