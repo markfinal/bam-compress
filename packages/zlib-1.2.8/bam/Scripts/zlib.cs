@@ -34,7 +34,7 @@ namespace zlib
 
     namespace tests
     {
-        sealed class ZLibExample :
+        sealed class example :
             C.ConsoleApplication
         {
             protected override void
@@ -44,6 +44,46 @@ namespace zlib
                 base.Init(parent);
 
                 var source = this.CreateCSourceContainer("$(packagedir)/test/example.c");
+                this.CompileAndLinkAgainst<ZLib>(source);
+
+                if (this.Linker is VisualCCommon.LinkerBase)
+                {
+                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
+                }
+            }
+        }
+
+#if false
+        sealed class infocover :
+            C.ConsoleApplication
+        {
+            protected override void
+            Init(
+                Bam.Core.Module parent)
+            {
+                base.Init(parent);
+
+                var source = this.CreateCSourceContainer("$(packagedir)/test/infcover.c");
+                this.CompileAndLinkAgainst<ZLib>(source);
+
+                if (this.Linker is VisualCCommon.LinkerBase)
+                {
+                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
+                }
+            }
+        }
+#endif
+
+        sealed class minigzip :
+            C.ConsoleApplication
+        {
+            protected override void
+            Init(
+                Bam.Core.Module parent)
+            {
+                base.Init(parent);
+
+                var source = this.CreateCSourceContainer("$(packagedir)/test/minigzip.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
 
                 if (this.Linker is VisualCCommon.LinkerBase)
