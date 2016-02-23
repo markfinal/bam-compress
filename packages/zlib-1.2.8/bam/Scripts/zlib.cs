@@ -61,6 +61,14 @@ namespace zlib
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
                         compiler.PreprocessorDefines.Add("_WINDOWS");
                     }
+
+                    var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
+                    if (null != mingwCompiler)
+                    {
+                        mingwCompiler.AllWarnings = true;
+                        mingwCompiler.ExtraWarnings = true;
+                        mingwCompiler.Pedantic = true;
+                    }
                 });
         }
     }
@@ -88,6 +96,14 @@ namespace zlib
 
                             var compiler = settings as C.ICommonCompilerSettings;
                             compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS");
+                        }
+
+                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
+                        if (null != mingwCompiler)
+                        {
+                            mingwCompiler.AllWarnings = true;
+                            mingwCompiler.ExtraWarnings = true;
+                            mingwCompiler.Pedantic = true;
                         }
                     });
 
@@ -137,6 +153,14 @@ namespace zlib
                         if (null != visualCCompiler)
                         {
                             visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
+                        }
+
+                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
+                        if (null != mingwCompiler)
+                        {
+                            mingwCompiler.AllWarnings = true;
+                            mingwCompiler.ExtraWarnings = true;
+                            mingwCompiler.Pedantic = true;
                         }
                     });
 
