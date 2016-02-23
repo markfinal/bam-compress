@@ -40,6 +40,8 @@ namespace zlib
         {
             base.Init(parent);
 
+            this.Macros["OutputName"] = Bam.Core.TokenizedString.CreateVerbatim("zlib");
+
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCSourceContainer("$(packagedir)/*.c");
 
