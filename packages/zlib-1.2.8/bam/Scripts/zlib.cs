@@ -57,6 +57,7 @@ namespace zlib
             source.PrivatePatch(settings =>
                 {
                     var compiler = settings as C.ICommonCompilerSettings;
+
                     var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
                     if (null != visualCCompiler)
                     {
@@ -70,6 +71,14 @@ namespace zlib
                         mingwCompiler.AllWarnings = true;
                         mingwCompiler.ExtraWarnings = true;
                         mingwCompiler.Pedantic = true;
+                    }
+
+                    var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
+                    if (null != gccCompiler)
+                    {
+                        gccCompiler.AllWarnings = false;
+                        gccCompiler.ExtraWarnings = true;
+                        gccCompiler.Pedantic = true;
                     }
                 });
         }
@@ -106,6 +115,14 @@ namespace zlib
                             mingwCompiler.AllWarnings = true;
                             mingwCompiler.ExtraWarnings = true;
                             mingwCompiler.Pedantic = true;
+                        }
+
+                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
+                        if (null != gccCompiler)
+                        {
+                            gccCompiler.AllWarnings = true;
+                            gccCompiler.ExtraWarnings = true;
+                            gccCompiler.Pedantic = true;
                         }
                     });
 
@@ -163,6 +180,14 @@ namespace zlib
                             mingwCompiler.AllWarnings = true;
                             mingwCompiler.ExtraWarnings = true;
                             mingwCompiler.Pedantic = true;
+                        }
+
+                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
+                        if (null != gccCompiler)
+                        {
+                            gccCompiler.AllWarnings = false;
+                            gccCompiler.ExtraWarnings = true;
+                            gccCompiler.Pedantic = true;
                         }
                     });
 
