@@ -79,6 +79,18 @@ namespace zlib
                 var source = this.CreateCSourceContainer("$(packagedir)/test/example.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
 
+                source.PrivatePatch(settings =>
+                    {
+                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != visualCCompiler)
+                        {
+                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level3;
+
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS");
+                        }
+                    });
+
                 if (this.Linker is VisualCCommon.LinkerBase)
                 {
                     this.LinkAgainst<WindowsSDK.WindowsSDK>();
@@ -118,6 +130,15 @@ namespace zlib
 
                 var source = this.CreateCSourceContainer("$(packagedir)/test/minigzip.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
+
+                source.PrivatePatch(settings =>
+                    {
+                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != visualCCompiler)
+                        {
+                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
+                        }
+                    });
 
                 if (this.Linker is VisualCCommon.LinkerBase)
                 {
