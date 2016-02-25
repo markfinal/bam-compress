@@ -3,6 +3,7 @@
   <Description>zlib compression, version 1.2.8</Description>
   <Dependents>
     <Package name="C" />
+    <Package name="Clang" version="Xcode6" />
     <Package name="Gcc" version="4.8" />
     <Package name="Mingw" version="4.8.1" />
     <Package name="NativeBuilder" />

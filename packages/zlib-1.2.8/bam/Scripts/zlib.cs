@@ -80,6 +80,14 @@ namespace zlib
                         gccCompiler.ExtraWarnings = true;
                         gccCompiler.Pedantic = true;
                     }
+
+                    var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
+                    if (null != clangCompiler)
+                    {
+                        clangCompiler.AllWarnings = false;
+                        clangCompiler.ExtraWarnings = true;
+                        clangCompiler.Pedantic = true;
+                    }
                 });
         }
     }
@@ -123,6 +131,14 @@ namespace zlib
                             gccCompiler.AllWarnings = true;
                             gccCompiler.ExtraWarnings = true;
                             gccCompiler.Pedantic = true;
+                        }
+
+                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
+                        if (null != clangCompiler)
+                        {
+                            clangCompiler.AllWarnings = true;
+                            clangCompiler.ExtraWarnings = true;
+                            clangCompiler.Pedantic = true;
                         }
                     });
 
@@ -188,6 +204,14 @@ namespace zlib
                             gccCompiler.AllWarnings = false;
                             gccCompiler.ExtraWarnings = true;
                             gccCompiler.Pedantic = true;
+                        }
+
+                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
+                        if (null != clangCompiler)
+                        {
+                            clangCompiler.AllWarnings = true;
+                            clangCompiler.ExtraWarnings = true;
+                            clangCompiler.Pedantic = true;
                         }
                     });
 
