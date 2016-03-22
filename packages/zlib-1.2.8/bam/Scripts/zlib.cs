@@ -32,7 +32,7 @@ namespace zlib
 {
     [Bam.Core.ModuleGroup("Thirdparty/Zlib")]
     class ZLib :
-        C.StaticLibrary
+        C.DynamicLibrary
     {
         protected override void
         Init(
