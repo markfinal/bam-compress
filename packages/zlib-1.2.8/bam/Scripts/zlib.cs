@@ -63,6 +63,7 @@ namespace zlib
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
                         compiler.PreprocessorDefines.Add("_WINDOWS");
+                        compiler.PreprocessorDefines.Add("ZLIB_DLL");
                     }
 
                     var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
@@ -89,6 +90,11 @@ namespace zlib
                         clangCompiler.Pedantic = true;
                     }
                 });
+
+            if (this.Linker is VisualCCommon.LinkerBase)
+            {
+                this.LinkAgainst<WindowsSDK.WindowsSDK>();
+            }
         }
     }
 
