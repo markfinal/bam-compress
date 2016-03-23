@@ -80,6 +80,9 @@ namespace zlib
                         gccCompiler.AllWarnings = false;
                         gccCompiler.ExtraWarnings = true;
                         gccCompiler.Pedantic = true;
+
+                        compiler.PreprocessorDefines.Add("HAVE_HIDDEN");
+                        gccCompiler.Visibility = GccCommon.EVisibility.Default;
                     }
 
                     var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
