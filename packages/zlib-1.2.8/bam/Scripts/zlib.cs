@@ -91,6 +91,9 @@ namespace zlib
                         clangCompiler.AllWarnings = false;
                         clangCompiler.ExtraWarnings = true;
                         clangCompiler.Pedantic = true;
+
+                        compiler.PreprocessorDefines.Add("HAVE_HIDDEN");
+                        clangCompiler.Visibility = ClangCommon.EVisibility.Default;
                     }
                 });
 
