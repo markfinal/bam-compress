@@ -237,5 +237,20 @@ namespace zlib
                 }
             }
         }
+
+        sealed class TestRuntime :
+            Publisher.Collation
+        {
+            protected override void
+            Init(
+                Bam.Core.Module parent)
+            {
+                base.Init(parent);
+
+                var app = this.Include<example>(C.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
+                this.Include<minigzip>(C.ConsoleApplication.Key, ".", app);
+                this.Include<ZLib>(C.DynamicLibrary.Key, ".", app);
+            }
+        }
     }
 }
