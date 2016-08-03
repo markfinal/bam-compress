@@ -42,6 +42,10 @@ namespace zlib
 
             this.Macros["OutputName"] = Bam.Core.TokenizedString.CreateVerbatim("zlib");
 
+            this.Macros["MajorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("1");
+            this.Macros["MinorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("2");
+            this.Macros["PatchVersion"] = Bam.Core.TokenizedString.CreateVerbatim("8");
+
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCSourceContainer("$(packagedir)/*.c");
 
