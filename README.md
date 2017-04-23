@@ -2,5 +2,6 @@
 
 This repository includes source builds for
 
+* zlib-1.2.11 [download source](http://www.zlib.net/)
 * zlib-1.2.8 [download source](http://www.zlib.net/)
 
