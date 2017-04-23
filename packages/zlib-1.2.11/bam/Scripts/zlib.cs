@@ -199,15 +199,18 @@ namespace zlib
                 }
             }
 
-            this.WindowsVersionResource.PrivatePatch(settings =>
-                {
-                    var mingwRC = settings as MingwCommon.ICommonWinResourceCompilerSettings;
-                    if (null != mingwRC)
+            if (null != this.WindowsVersionResource)
+            {
+                this.WindowsVersionResource.PrivatePatch(settings =>
                     {
-                        var rc = settings as C.ICommonWinResourceCompilerSettings;
-                        rc.PreprocessorDefines.Add("GCC_WINDRES");
-                    }
-                });
+                        var mingwRC = settings as MingwCommon.ICommonWinResourceCompilerSettings;
+                        if (null != mingwRC)
+                        {
+                            var rc = settings as C.ICommonWinResourceCompilerSettings;
+                            rc.PreprocessorDefines.Add("GCC_WINDRES");
+                        }
+                    });
+            }
         }
     }
 
