@@ -50,6 +50,79 @@ namespace zlib
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCSourceContainer("$(packagedir)/*.c");
 
+            source["crc32.c"].ForEach(item =>
+                item.PrivatePatch(settings =>
+                    {
+                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != vcCompiler)
+                        {
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.DisableWarnings.AddUnique("4127"); // zlib-1.2.11\crc32.c(215): warning C4127: conditional expression is constant
+                        }
+                    }));
+
+            source["deflate.c"].ForEach(item =>
+                item.PrivatePatch(settings =>
+                    {
+                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != vcCompiler)
+                        {
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.DisableWarnings.AddUnique("4127"); // zlib-1.2.11\deflate.c(1495): warning C4127: conditional expression is constant
+                            compiler.DisableWarnings.AddUnique("4244"); // zlib-1.2.11\deflate.c(1693): warning C4244: '=': conversion from 'unsigned int' to 'Bytef', possible loss of data
+                        }
+                    }));
+
+            source["gzlib.c"].ForEach(item =>
+                item.PrivatePatch(settings =>
+                    {
+                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != vcCompiler)
+                        {
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzlib.c(193): warning C4996: 'wcstombs': This function or variable may be unsafe
+                            compiler.DisableWarnings.AddUnique("4996"); // zlib-1.2.11\gzlib.c(245): warning C4996: 'open': The POSIX name for this item is deprecated
+                        }
+                    }));
+
+            source["gzread.c"].ForEach(item =>
+                item.PrivatePatch(settings =>
+                    {
+                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != vcCompiler)
+                        {
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzread.c(41): warning C4996: 'strerror': This function or variable may be unsafe
+                            compiler.DisableWarnings.AddUnique("4996"); // zlib-1.2.11\gzread.c(35): warning C4996: 'read': The POSIX name for this item is deprecated.
+                            compiler.DisableWarnings.AddUnique("4245"); // zlib-1.2.11\gzread.c(317): warning C4245: '=': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+                            compiler.DisableWarnings.AddUnique("4267"); // zlib-1.2.11\gzread.c(319): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+                        }
+                    }));
+
+            source["gzwrite.c"].ForEach(item =>
+                item.PrivatePatch(settings =>
+                    {
+                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != vcCompiler)
+                        {
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzwrite.c(91): warning C4996: 'strerror': This function or variable may be unsafe
+                            compiler.DisableWarnings.AddUnique("4996"); // zlib-1.2.11\gzwrite.c(89): warning C4996: 'write': The POSIX name for this item is deprecated
+                            compiler.DisableWarnings.AddUnique("4267"); // zlib-1.2.11\gzwrite.c(212): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+                        }
+                    }));
+
+            source["trees.c"].ForEach(item =>
+                item.PrivatePatch(settings =>
+                    {
+                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
+                        if (null != vcCompiler)
+                        {
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.DisableWarnings.AddUnique("4244"); // zlib-1.2.11\trees.c(724): warning C4244: '+=': conversion from 'int' to 'ush', possible loss of data
+                        }
+                    }));
+
             this.PublicPatch((settings, appliedTo) =>
                 {
                     var compiler = settings as C.ICommonCompilerSettings;
@@ -72,6 +145,7 @@ namespace zlib
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                         compiler.PreprocessorDefines.Add("_WINDOWS");
                         compiler.PreprocessorDefines.Add("ZLIB_DLL");
+                        compiler.DisableWarnings.AddUnique("4131"); // zlib-1.2.11\adler32.c(64): warning C4131: 'adler32_z': uses old-style declarator
                     }
 
                     var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
@@ -156,7 +230,7 @@ namespace zlib
                         var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
                         if (null != visualCCompiler)
                         {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
+                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
 
                         #if false
                             var compiler = settings as C.ICommonCompilerSettings;
@@ -257,7 +331,7 @@ namespace zlib
                         var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
                         if (null != visualCCompiler)
                         {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
+                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
                         }
 
                         var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
