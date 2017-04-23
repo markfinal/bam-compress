@@ -89,6 +89,12 @@ namespace zlib
                         gccCompiler.ExtraWarnings = true;
                         gccCompiler.Pedantic = true;
 
+                        compiler.PreprocessorDefines.Add("HAVE_UNISTD_H"); // for lseek etc
+
+                        // because this is not c99
+                        compiler.PreprocessorDefines.Add("NO_snprintf");
+                        compiler.PreprocessorDefines.Add("NO_vsnprintf");
+
                         // flip the normal rules of visibility - make everything visible, and hide internals
                         compiler.PreprocessorDefines.Add("HAVE_HIDDEN");
                         gccCompiler.Visibility = GccCommon.EVisibility.Default;
@@ -187,6 +193,16 @@ namespace zlib
                 {
                     this.LinkAgainst<WindowsSDK.WindowsSDK>();
                 }
+
+                this.PrivatePatch(settings =>
+                    {
+                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
+                        if (null != gccLinker)
+                        {
+                            gccLinker.CanUseOrigin = true;
+                            gccLinker.RPath.AddUnique("$ORIGIN");
+                        }
+                    });
             }
         }
 
@@ -207,6 +223,16 @@ namespace zlib
                 {
                     this.LinkAgainst<WindowsSDK.WindowsSDK>();
                 }
+
+                this.PrivatePatch(settings =>
+                    {
+                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
+                        if (null != gccLinker)
+                        {
+                            gccLinker.CanUseOrigin = true;
+                            gccLinker.RPath.AddUnique("$ORIGIN");
+                        }
+                    });
             }
         }
 #endif
@@ -263,6 +289,16 @@ namespace zlib
                 {
                     this.LinkAgainst<WindowsSDK.WindowsSDK>();
                 }
+
+                this.PrivatePatch(settings =>
+                    {
+                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
+                        if (null != gccLinker)
+                        {
+                            gccLinker.CanUseOrigin = true;
+                            gccLinker.RPath.AddUnique("$ORIGIN");
+                        }
+                    });
             }
         }
 
