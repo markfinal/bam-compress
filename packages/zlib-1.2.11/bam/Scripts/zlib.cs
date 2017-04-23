@@ -186,13 +186,6 @@ namespace zlib
                         // flip the normal rules of visibility - make everything visible, and hide internals
                         compiler.PreprocessorDefines.Add("HAVE_HIDDEN");
                         clangCompiler.Visibility = ClangCommon.EVisibility.Default;
-
-                    #if false
-                        if (source.Compiler.IsAtLeast(700))
-                        {
-                            compiler.DisableWarnings.AddUnique("shift-negative-value"); // zlib-1.2.8/inflate.c:1507:61: error: shifting a negative signed value is undefined [-Werror,-Wshift-negative-value]
-                        }
-                    #endif
                     }
                 });
 
@@ -242,11 +235,6 @@ namespace zlib
                         if (null != visualCCompiler)
                         {
                             visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
-
-                        #if false
-                            var compiler = settings as C.ICommonCompilerSettings;
-                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS");
-                        #endif
                         }
 
                         var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
