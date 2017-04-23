@@ -205,11 +205,22 @@ namespace zlib
                     this.WindowsVersionResource.UsePublicPatches(C.DefaultToolchain.C_Compiler(this.BitDepth)); // for limits.h
                 }
             }
+
+            this.WindowsVersionResource.PrivatePatch(settings =>
+                {
+                    var mingwRC = settings as MingwCommon.ICommonWinResourceCompilerSettings;
+                    if (null != mingwRC)
+                    {
+                        var rc = settings as C.ICommonWinResourceCompilerSettings;
+                        rc.PreprocessorDefines.Add("GCC_WINDRES");
+                    }
+                });
         }
     }
 
     namespace tests
     {
+        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
         sealed class example :
             C.ConsoleApplication
         {
@@ -281,6 +292,7 @@ namespace zlib
         }
 
 #if false
+        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
         sealed class infocover :
             C.ConsoleApplication
         {
@@ -311,6 +323,7 @@ namespace zlib
         }
 #endif
 
+        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
         sealed class minigzip :
             C.ConsoleApplication
         {
