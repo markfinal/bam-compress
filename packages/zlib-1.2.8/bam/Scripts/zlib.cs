@@ -41,6 +41,20 @@ namespace zlib
         {
             base.Init(parent);
 
+            if (this.BuildEnvironment.Platform.Includes(Bam.Core.EPlatform.Linux))
+            {
+                var versionScript = Bam.Core.Graph.Instance.FindReferencedModule<VersionScript>();
+                this.DependsOn(versionScript);
+                this.PrivatePatch(settings =>
+                    {
+                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
+                        if (null != gccLinker)
+                        {
+                            gccLinker.VersionScript = versionScript.InputPath;
+                        }
+                    });
+            }
+
             this.Macros["OutputName"] = Bam.Core.TokenizedString.CreateVerbatim("zlib");
 
             this.Macros["MajorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("1");
