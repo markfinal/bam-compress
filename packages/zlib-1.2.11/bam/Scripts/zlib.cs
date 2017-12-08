@@ -397,6 +397,8 @@ namespace zlib
         sealed class TestRuntime :
             Publisher.Collation
         {
+#if D_NEW_PUBLISHING
+#else
             protected override void
             Init(
                 Bam.Core.Module parent)
@@ -407,6 +409,7 @@ namespace zlib
                 this.Include<minigzip>(C.ConsoleApplication.Key, ".", app);
                 this.Include<ZLib>(C.DynamicLibrary.Key, ".", app);
             }
+#endif
         }
     }
 }
