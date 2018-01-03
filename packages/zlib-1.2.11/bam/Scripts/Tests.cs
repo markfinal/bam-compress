@@ -205,7 +205,7 @@ namespace zlib
                 base.Init(parent);
 
 #if D_NEW_PUBLISHING
-                this.SetDefaultMacros(EPublishingType.ConsoleApplication);
+                this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
 
                 this.IncludeAllModulesInNamespace("zlib.tests", C.ConsoleApplication.Key);
 #else
