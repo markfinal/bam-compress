@@ -27,11 +27,11 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion // License
+using Bam.Core;
 namespace zlib
 {
     namespace tests
     {
-        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
         class example :
             C.ConsoleApplication
         {
@@ -46,13 +46,13 @@ namespace zlib
 
                 source.PrivatePatch(settings =>
                     {
-                        var cCompiler = settings as C.ICOnlyCompilerSettings;
-                        cCompiler.LanguageStandard = C.ELanguageStandard.C89;
-
                         var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
                         if (null != visualCCompiler)
                         {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
+                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level3;
+
+                            var compiler = settings as C.ICommonCompilerSettings;
+                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS");
                         }
 
                         var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
@@ -84,22 +84,11 @@ namespace zlib
                 {
                     this.LinkAgainst<WindowsSDK.WindowsSDK>();
                 }
-
-                this.PrivatePatch(settings =>
-                    {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
-                        {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
-                        }
-                    });
             }
         }
 
 #if false
-        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
-        class infocover :
+        sealed class infocover :
             C.ConsoleApplication
         {
             protected override void
@@ -115,21 +104,10 @@ namespace zlib
                 {
                     this.LinkAgainst<WindowsSDK.WindowsSDK>();
                 }
-
-                this.PrivatePatch(settings =>
-                    {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
-                        {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
-                        }
-                    });
             }
         }
 #endif
 
-        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
         class minigzip :
             C.ConsoleApplication
         {
@@ -144,9 +122,6 @@ namespace zlib
 
                 source.PrivatePatch(settings =>
                     {
-                        var cCompiler = settings as C.ICOnlyCompilerSettings;
-                        cCompiler.LanguageStandard = C.ELanguageStandard.C89;
-
                         var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
                         if (null != visualCCompiler)
                         {
@@ -182,16 +157,6 @@ namespace zlib
                 {
                     this.LinkAgainst<WindowsSDK.WindowsSDK>();
                 }
-
-                this.PrivatePatch(settings =>
-                    {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
-                        {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
-                        }
-                    });
             }
         }
 
@@ -206,7 +171,6 @@ namespace zlib
 
 #if D_NEW_PUBLISHING
                 this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
-
                 this.IncludeAllModulesInNamespace("zlib.tests", C.ConsoleApplication.Key);
 #else
                 var app = this.Include<example>(C.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
