@@ -203,10 +203,9 @@ namespace zlib
 
             if (this.Linker is VisualCCommon.LinkerBase)
             {
-                this.LinkAgainst<WindowsSDK.WindowsSDK>();
-
                 if (null != this.WindowsVersionResource)
                 {
+                    // TODO: is this necessary now that vcvarsall.bat is used?
                     this.WindowsVersionResource.UsePublicPatches(C.DefaultToolchain.C_Compiler(this.BitDepth)); // for limits.h
                 }
             }

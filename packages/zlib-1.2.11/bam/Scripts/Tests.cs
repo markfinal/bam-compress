@@ -80,11 +80,6 @@ namespace zlib
                         }
                     });
 
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-
                 this.PrivatePatch(settings =>
                     {
                         var gccLinker = settings as GccCommon.ICommonLinkerSettings;
@@ -110,11 +105,6 @@ namespace zlib
 
                 var source = this.CreateCSourceContainer("$(packagedir)/test/infcover.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
 
                 this.PrivatePatch(settings =>
                     {
@@ -177,11 +167,6 @@ namespace zlib
                             clangCompiler.Pedantic = true;
                         }
                     });
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
 
                 this.PrivatePatch(settings =>
                     {
