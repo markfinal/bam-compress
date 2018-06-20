@@ -79,11 +79,6 @@ namespace zlib
                             clangCompiler.Pedantic = true;
                         }
                     });
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
             }
         }
 
@@ -152,11 +147,6 @@ namespace zlib
                             clangCompiler.Pedantic = true;
                         }
                     });
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
             }
         }
 

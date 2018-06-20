@@ -123,8 +123,6 @@ namespace zlib
 
             if (this.Linker is VisualCCommon.LinkerBase)
             {
-                this.LinkAgainst<WindowsSDK.WindowsSDK>();
-
                 if (null != this.WindowsVersionResource)
                 {
                     this.WindowsVersionResource.UsePublicPatches(C.DefaultToolchain.C_Compiler(this.BitDepth)); // for limits.h
