@@ -1,5 +1,5 @@
 #region License
-// Copyright (c) 2010-2017, Mark Final
+// Copyright (c) 2010-2018, Mark Final
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -123,158 +123,10 @@ namespace zlib
 
             if (this.Linker is VisualCCommon.LinkerBase)
             {
-                this.LinkAgainst<WindowsSDK.WindowsSDK>();
-
                 if (null != this.WindowsVersionResource)
                 {
                     this.WindowsVersionResource.UsePublicPatches(C.DefaultToolchain.C_Compiler(this.BitDepth)); // for limits.h
                 }
-            }
-        }
-    }
-
-    namespace tests
-    {
-        sealed class example :
-            C.ConsoleApplication
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var source = this.CreateCSourceContainer("$(packagedir)/test/example.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
-
-                source.PrivatePatch(settings =>
-                    {
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
-                        {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level3;
-
-                            var compiler = settings as C.ICommonCompilerSettings;
-                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS");
-                        }
-
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
-                        {
-                            mingwCompiler.AllWarnings = true;
-                            mingwCompiler.ExtraWarnings = true;
-                            mingwCompiler.Pedantic = true;
-                        }
-
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
-                        {
-                            gccCompiler.AllWarnings = true;
-                            gccCompiler.ExtraWarnings = true;
-                            gccCompiler.Pedantic = true;
-                        }
-
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
-                        {
-                            clangCompiler.AllWarnings = true;
-                            clangCompiler.ExtraWarnings = true;
-                            clangCompiler.Pedantic = true;
-                        }
-                    });
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-            }
-        }
-
-#if false
-        sealed class infocover :
-            C.ConsoleApplication
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var source = this.CreateCSourceContainer("$(packagedir)/test/infcover.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-            }
-        }
-#endif
-
-        sealed class minigzip :
-            C.ConsoleApplication
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var source = this.CreateCSourceContainer("$(packagedir)/test/minigzip.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
-
-                source.PrivatePatch(settings =>
-                    {
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
-                        {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
-                        }
-
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
-                        {
-                            mingwCompiler.AllWarnings = true;
-                            mingwCompiler.ExtraWarnings = true;
-                            mingwCompiler.Pedantic = true;
-                        }
-
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
-                        {
-                            gccCompiler.AllWarnings = false;
-                            gccCompiler.ExtraWarnings = true;
-                            gccCompiler.Pedantic = true;
-                        }
-
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
-                        {
-                            clangCompiler.AllWarnings = true;
-                            clangCompiler.ExtraWarnings = true;
-                            clangCompiler.Pedantic = true;
-                        }
-                    });
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-            }
-        }
-
-        sealed class TestRuntime :
-            Publisher.Collation
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var app = this.Include<example>(C.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
-                this.Include<minigzip>(C.ConsoleApplication.Key, ".", app);
-                this.Include<ZLib>(C.DynamicLibrary.Key, ".", app);
             }
         }
     }

@@ -1,5 +1,5 @@
 #region License
-// Copyright (c) 2010-2017, Mark Final
+// Copyright (c) 2010-2018, Mark Final
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,14 @@ namespace zlib
     class VersionScript :
         C.VersionScript
     {
+        protected override void
+        Init(
+            Bam.Core.Module parent)
+        {
+            base.Init(parent);
+            this.Macros.Add("templateConfig", this.CreateTokenizedString("$(packagedir)/zlib.map"));
+        }
+
         public override TokenizedString OutputPath
         {
             get
@@ -47,7 +55,7 @@ namespace zlib
             get
             {
                 string contents = string.Empty;
-                using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.CreateTokenizedString("$(packagedir)/zlib.map").Parse()))
+                using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.Macros["templateConfig"].ToString()))
                 {
                     contents = streamReader.ReadToEnd();
                 }

@@ -1,5 +1,5 @@
 #region License
-// Copyright (c) 2010-2017, Mark Final
+// Copyright (c) 2010-2018, Mark Final
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -57,9 +57,7 @@ namespace zlib
 
             this.Macros["OutputName"] = Bam.Core.TokenizedString.CreateVerbatim("zlib");
 
-            this.Macros["MajorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("1");
-            this.Macros["MinorVersion"] = Bam.Core.TokenizedString.CreateVerbatim("2");
-            this.Macros["PatchVersion"] = Bam.Core.TokenizedString.CreateVerbatim("11");
+            this.SetSemanticVersion(1, 2, 11);
 
             this.CreateHeaderContainer("$(packagedir)/*.h");
             var source = this.CreateCSourceContainer("$(packagedir)/*.c");
@@ -205,10 +203,9 @@ namespace zlib
 
             if (this.Linker is VisualCCommon.LinkerBase)
             {
-                this.LinkAgainst<WindowsSDK.WindowsSDK>();
-
                 if (null != this.WindowsVersionResource)
                 {
+                    // TODO: is this necessary now that vcvarsall.bat is used?
                     this.WindowsVersionResource.UsePublicPatches(C.DefaultToolchain.C_Compiler(this.BitDepth)); // for limits.h
                 }
             }
@@ -224,188 +221,6 @@ namespace zlib
                             rc.PreprocessorDefines.Add("GCC_WINDRES");
                         }
                     });
-            }
-        }
-    }
-
-    namespace tests
-    {
-        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
-        sealed class example :
-            C.ConsoleApplication
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var source = this.CreateCSourceContainer("$(packagedir)/test/example.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
-
-                source.PrivatePatch(settings =>
-                    {
-                        var cCompiler = settings as C.ICOnlyCompilerSettings;
-                        cCompiler.LanguageStandard = C.ELanguageStandard.C89;
-
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
-                        {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
-                        }
-
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
-                        {
-                            mingwCompiler.AllWarnings = true;
-                            mingwCompiler.ExtraWarnings = true;
-                            mingwCompiler.Pedantic = true;
-                        }
-
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
-                        {
-                            gccCompiler.AllWarnings = true;
-                            gccCompiler.ExtraWarnings = true;
-                            gccCompiler.Pedantic = true;
-                        }
-
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
-                        {
-                            clangCompiler.AllWarnings = true;
-                            clangCompiler.ExtraWarnings = true;
-                            clangCompiler.Pedantic = true;
-                        }
-                    });
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-
-                this.PrivatePatch(settings =>
-                    {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
-                        {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
-                        }
-                    });
-            }
-        }
-
-#if false
-        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
-        sealed class infocover :
-            C.ConsoleApplication
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var source = this.CreateCSourceContainer("$(packagedir)/test/infcover.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-
-                this.PrivatePatch(settings =>
-                    {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
-                        {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
-                        }
-                    });
-            }
-        }
-#endif
-
-        [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
-        sealed class minigzip :
-            C.ConsoleApplication
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var source = this.CreateCSourceContainer("$(packagedir)/test/minigzip.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
-
-                source.PrivatePatch(settings =>
-                    {
-                        var cCompiler = settings as C.ICOnlyCompilerSettings;
-                        cCompiler.LanguageStandard = C.ELanguageStandard.C89;
-
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
-                        {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
-                        }
-
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
-                        {
-                            mingwCompiler.AllWarnings = true;
-                            mingwCompiler.ExtraWarnings = true;
-                            mingwCompiler.Pedantic = true;
-                        }
-
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
-                        {
-                            gccCompiler.AllWarnings = false;
-                            gccCompiler.ExtraWarnings = true;
-                            gccCompiler.Pedantic = true;
-                        }
-
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
-                        {
-                            clangCompiler.AllWarnings = true;
-                            clangCompiler.ExtraWarnings = true;
-                            clangCompiler.Pedantic = true;
-                        }
-                    });
-
-                if (this.Linker is VisualCCommon.LinkerBase)
-                {
-                    this.LinkAgainst<WindowsSDK.WindowsSDK>();
-                }
-
-                this.PrivatePatch(settings =>
-                    {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
-                        {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
-                        }
-                    });
-            }
-        }
-
-        sealed class TestRuntime :
-            Publisher.Collation
-        {
-            protected override void
-            Init(
-                Bam.Core.Module parent)
-            {
-                base.Init(parent);
-
-                var app = this.Include<example>(C.ConsoleApplication.Key, EPublishingType.ConsoleApplication);
-                this.Include<minigzip>(C.ConsoleApplication.Key, ".", app);
-                this.Include<ZLib>(C.DynamicLibrary.Key, ".", app);
             }
         }
     }
