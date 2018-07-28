@@ -191,7 +191,7 @@ namespace zlib
 
                 this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
 
-                this.IncludeAllModulesInNamespace("zlib.tests", C.ConsoleApplication.Key);
+                this.IncludeAllModulesInNamespace("zlib.tests", C.ConsoleApplication.ExecutableKey);
             }
         }
     }
