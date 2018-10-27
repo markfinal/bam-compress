@@ -114,7 +114,7 @@ namespace zlib
                         compiler.PreprocessorDefines.Add("HAVE_HIDDEN");
                         clangCompiler.Visibility = ClangCommon.EVisibility.Default;
 
-                        if (source.Compiler.IsAtLeast(700))
+                        if (source.Compiler.Version.AtLeast(ClangCommon.ToolchainVersion.Xcode_7))
                         {
                             compiler.DisableWarnings.AddUnique("shift-negative-value"); // zlib-1.2.8/inflate.c:1507:61: error: shifting a negative signed value is undefined [-Werror,-Wshift-negative-value]
                         }
