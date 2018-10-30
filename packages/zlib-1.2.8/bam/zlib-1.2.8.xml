@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageDefinition xsi:schemaLocation="http://www.buildamation.com ./Schema/BamPackageDefinitionV1.xsd" name="zlib" version="1.2.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.buildamation.com">
   <Description>zlib compression, version 1.2.8</Description>
-  <Source type="http" path="https://www.zlib.net/fossils/zlib-1.2.8.tar.gz" subdir="zlib-1.2.8" />
+  <Sources>
+    <Source type="http" path="https://www.zlib.net/fossils/zlib-1.2.8.tar.gz" subdir="zlib-1.2.8" />
+  </Sources>
   <Dependents>
     <Package name="C" />
     <Package name="Clang" version="Xcode4" />
