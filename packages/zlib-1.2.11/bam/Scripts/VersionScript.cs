@@ -27,10 +27,9 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion // License
-using Bam.Core;
 namespace zlib
 {
-    [ModuleGroup("Thirdparty/zlib")]
+    [Bam.Core.ModuleGroup("Thirdparty/zlib")]
     class VersionScript :
         C.VersionScript
     {
@@ -42,13 +41,7 @@ namespace zlib
             this.Macros.Add("templateConfig", this.CreateTokenizedString("$(packagedir)/zlib.map"));
         }
 
-        public override TokenizedString OutputPath
-        {
-            get
-            {
-                return this.CreateTokenizedString("$(packagebuilddir)/$(config)/zlib.map");
-            }
-        }
+        public override Bam.Core.TokenizedString OutputPath => this.CreateTokenizedString("$(packagebuilddir)/$(config)/zlib.map");
 
         protected override string Contents
         {

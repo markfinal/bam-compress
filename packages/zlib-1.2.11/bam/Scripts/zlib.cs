@@ -47,8 +47,7 @@ namespace zlib
                 this.DependsOn(versionScript);
                 this.PrivatePatch(settings =>
                     {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
+                        if (settings is GccCommon.ICommonLinkerSettings gccLinker)
                         {
                             gccLinker.VersionScript = versionScript.InputPath;
                         }
@@ -65,8 +64,7 @@ namespace zlib
             source["crc32.c"].ForEach(item =>
                 item.PrivatePatch(settings =>
                     {
-                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != vcCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
                             var compiler = settings as C.ICommonCompilerSettings;
                             compiler.DisableWarnings.AddUnique("4127"); // zlib-1.2.11\crc32.c(215): warning C4127: conditional expression is constant
@@ -76,8 +74,7 @@ namespace zlib
             source["deflate.c"].ForEach(item =>
                 item.PrivatePatch(settings =>
                     {
-                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != vcCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
                             var compiler = settings as C.ICommonCompilerSettings;
                             compiler.DisableWarnings.AddUnique("4127"); // zlib-1.2.11\deflate.c(1495): warning C4127: conditional expression is constant
@@ -88,8 +85,7 @@ namespace zlib
             source["gzlib.c"].ForEach(item =>
                 item.PrivatePatch(settings =>
                     {
-                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != vcCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
                             var compiler = settings as C.ICommonCompilerSettings;
                             compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzlib.c(193): warning C4996: 'wcstombs': This function or variable may be unsafe
@@ -100,8 +96,7 @@ namespace zlib
             source["gzread.c"].ForEach(item =>
                 item.PrivatePatch(settings =>
                     {
-                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != vcCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
                             var compiler = settings as C.ICommonCompilerSettings;
                             compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzread.c(41): warning C4996: 'strerror': This function or variable may be unsafe
@@ -114,8 +109,7 @@ namespace zlib
             source["gzwrite.c"].ForEach(item =>
                 item.PrivatePatch(settings =>
                     {
-                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != vcCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
                             var compiler = settings as C.ICommonCompilerSettings;
                             compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzwrite.c(91): warning C4996: 'strerror': This function or variable may be unsafe
@@ -127,8 +121,7 @@ namespace zlib
             source["trees.c"].ForEach(item =>
                 item.PrivatePatch(settings =>
                     {
-                        var vcCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != vcCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
                             var compiler = settings as C.ICommonCompilerSettings;
                             compiler.DisableWarnings.AddUnique("4244"); // zlib-1.2.11\trees.c(724): warning C4244: '+=': conversion from 'int' to 'ush', possible loss of data
@@ -137,8 +130,7 @@ namespace zlib
 
             this.PublicPatch((settings, appliedTo) =>
                 {
-                    var compiler = settings as C.ICommonCompilerSettings;
-                    if (null != compiler)
+                    if (settings is C.ICommonCompilerSettings compiler)
                     {
                         compiler.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
                     }
@@ -151,8 +143,7 @@ namespace zlib
                     var cCompiler = settings as C.ICOnlyCompilerSettings;
                     cCompiler.LanguageStandard = C.ELanguageStandard.C89;
 
-                    var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                    if (null != visualCCompiler)
+                    if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                         compiler.PreprocessorDefines.Add("_WINDOWS");
@@ -160,16 +151,14 @@ namespace zlib
                         compiler.DisableWarnings.AddUnique("4131"); // zlib-1.2.11\adler32.c(64): warning C4131: 'adler32_z': uses old-style declarator
                     }
 
-                    var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                    if (null != mingwCompiler)
+                    if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                     {
                         mingwCompiler.AllWarnings = true;
                         mingwCompiler.ExtraWarnings = true;
                         mingwCompiler.Pedantic = true;
                     }
 
-                    var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                    if (null != gccCompiler)
+                    if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                     {
                         gccCompiler.AllWarnings = true;
                         gccCompiler.ExtraWarnings = true;
@@ -186,8 +175,7 @@ namespace zlib
                         gccCompiler.Visibility = GccCommon.EVisibility.Default;
                     }
 
-                    var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                    if (null != clangCompiler)
+                    if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
                     {
                         clangCompiler.AllWarnings = true;
                         clangCompiler.ExtraWarnings = true;
@@ -214,8 +202,7 @@ namespace zlib
             {
                 this.WindowsVersionResource.PrivatePatch(settings =>
                     {
-                        var mingwRC = settings as MingwCommon.ICommonWinResourceCompilerSettings;
-                        if (null != mingwRC)
+                        if (settings is MingwCommon.ICommonWinResourceCompilerSettings mingwRC)
                         {
                             var rc = settings as C.ICommonWinResourceCompilerSettings;
                             rc.PreprocessorDefines.Add("GCC_WINDRES");

@@ -49,30 +49,26 @@ namespace zlib
                         var cCompiler = settings as C.ICOnlyCompilerSettings;
                         cCompiler.LanguageStandard = C.ELanguageStandard.C89;
 
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                         {
                             visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
                         }
 
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
+                        if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                         {
                             mingwCompiler.AllWarnings = true;
                             mingwCompiler.ExtraWarnings = true;
                             mingwCompiler.Pedantic = true;
                         }
 
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
+                        if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                         {
                             gccCompiler.AllWarnings = true;
                             gccCompiler.ExtraWarnings = true;
                             gccCompiler.Pedantic = true;
                         }
 
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
+                        if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
                         {
                             clangCompiler.AllWarnings = true;
                             clangCompiler.ExtraWarnings = true;
@@ -82,8 +78,7 @@ namespace zlib
 
                 this.PrivatePatch(settings =>
                     {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
+                        if (settings is GccCommon.ICommonLinkerSettings gccLinker)
                         {
                             gccLinker.CanUseOrigin = true;
                             gccLinker.RPath.AddUnique("$ORIGIN");
@@ -108,8 +103,7 @@ namespace zlib
 
                 this.PrivatePatch(settings =>
                     {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
+                        if (settings is GccCommon.ICommonLinkerSettings gccLinker)
                         {
                             gccLinker.CanUseOrigin = true;
                             gccLinker.RPath.AddUnique("$ORIGIN");
@@ -137,30 +131,26 @@ namespace zlib
                         var cCompiler = settings as C.ICOnlyCompilerSettings;
                         cCompiler.LanguageStandard = C.ELanguageStandard.C89;
 
-                        var visualCCompiler = settings as VisualCCommon.ICommonCompilerSettings;
-                        if (null != visualCCompiler)
+                        if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                         {
                             visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
                         }
 
-                        var mingwCompiler = settings as MingwCommon.ICommonCompilerSettings;
-                        if (null != mingwCompiler)
+                        if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                         {
                             mingwCompiler.AllWarnings = true;
                             mingwCompiler.ExtraWarnings = true;
                             mingwCompiler.Pedantic = true;
                         }
 
-                        var gccCompiler = settings as GccCommon.ICommonCompilerSettings;
-                        if (null != gccCompiler)
+                        if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                         {
                             gccCompiler.AllWarnings = false;
                             gccCompiler.ExtraWarnings = true;
                             gccCompiler.Pedantic = true;
                         }
 
-                        var clangCompiler = settings as ClangCommon.ICommonCompilerSettings;
-                        if (null != clangCompiler)
+                        if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
                         {
                             clangCompiler.AllWarnings = true;
                             clangCompiler.ExtraWarnings = true;
@@ -170,8 +160,7 @@ namespace zlib
 
                 this.PrivatePatch(settings =>
                     {
-                        var gccLinker = settings as GccCommon.ICommonLinkerSettings;
-                        if (null != gccLinker)
+                        if (settings is GccCommon.ICommonLinkerSettings gccLinker)
                         {
                             gccLinker.CanUseOrigin = true;
                             gccLinker.RPath.AddUnique("$ORIGIN");
