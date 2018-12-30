@@ -87,8 +87,9 @@ namespace zlib
                     {
                         if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
+                            var preprocessor = settings as C.ICommonPreprocessorSettings;
+                            preprocessor.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzlib.c(193): warning C4996: 'wcstombs': This function or variable may be unsafe
                             var compiler = settings as C.ICommonCompilerSettings;
-                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzlib.c(193): warning C4996: 'wcstombs': This function or variable may be unsafe
                             compiler.DisableWarnings.AddUnique("4996"); // zlib-1.2.11\gzlib.c(245): warning C4996: 'open': The POSIX name for this item is deprecated
                         }
                     }));
@@ -98,8 +99,9 @@ namespace zlib
                     {
                         if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
+                            var preprocessor = settings as C.ICommonPreprocessorSettings;
+                            preprocessor.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzread.c(41): warning C4996: 'strerror': This function or variable may be unsafe
                             var compiler = settings as C.ICommonCompilerSettings;
-                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzread.c(41): warning C4996: 'strerror': This function or variable may be unsafe
                             compiler.DisableWarnings.AddUnique("4996"); // zlib-1.2.11\gzread.c(35): warning C4996: 'read': The POSIX name for this item is deprecated.
                             compiler.DisableWarnings.AddUnique("4245"); // zlib-1.2.11\gzread.c(317): warning C4245: '=': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
                             compiler.DisableWarnings.AddUnique("4267"); // zlib-1.2.11\gzread.c(319): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
@@ -111,8 +113,9 @@ namespace zlib
                     {
                         if (settings is VisualCCommon.ICommonCompilerSettings)
                         {
+                            var preprocessor = settings as C.ICommonPreprocessorSettings;
+                            preprocessor.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzwrite.c(91): warning C4996: 'strerror': This function or variable may be unsafe
                             var compiler = settings as C.ICommonCompilerSettings;
-                            compiler.PreprocessorDefines.Add("_CRT_SECURE_NO_WARNINGS"); // zlib-1.2.11\gzwrite.c(91): warning C4996: 'strerror': This function or variable may be unsafe
                             compiler.DisableWarnings.AddUnique("4996"); // zlib-1.2.11\gzwrite.c(89): warning C4996: 'write': The POSIX name for this item is deprecated
                             compiler.DisableWarnings.AddUnique("4267"); // zlib-1.2.11\gzwrite.c(212): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
                         }
@@ -130,15 +133,15 @@ namespace zlib
 
             this.PublicPatch((settings, appliedTo) =>
                 {
-                    if (settings is C.ICommonCompilerSettings compiler)
+                    if (settings is C.ICommonPreprocessorSettings preprocessor)
                     {
-                        compiler.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
+                        preprocessor.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
                     }
                 });
 
             source.PrivatePatch(settings =>
                 {
-                    var compiler = settings as C.ICommonCompilerSettings;
+                    var preprocessor = settings as C.ICommonPreprocessorSettings;
 
                     var cCompiler = settings as C.ICOnlyCompilerSettings;
                     cCompiler.LanguageStandard = C.ELanguageStandard.C89;
@@ -146,8 +149,10 @@ namespace zlib
                     if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
-                        compiler.PreprocessorDefines.Add("_WINDOWS");
-                        compiler.PreprocessorDefines.Add("ZLIB_DLL");
+                        preprocessor.PreprocessorDefines.Add("_WINDOWS");
+                        preprocessor.PreprocessorDefines.Add("ZLIB_DLL");
+
+                        var compiler = settings as C.ICommonCompilerSettings;
                         compiler.DisableWarnings.AddUnique("4131"); // zlib-1.2.11\adler32.c(64): warning C4131: 'adler32_z': uses old-style declarator
                     }
 
@@ -164,14 +169,14 @@ namespace zlib
                         gccCompiler.ExtraWarnings = true;
                         gccCompiler.Pedantic = true;
 
-                        compiler.PreprocessorDefines.Add("HAVE_UNISTD_H"); // for lseek etc
+                        preprocessor.PreprocessorDefines.Add("HAVE_UNISTD_H"); // for lseek etc
 
                         // because this is not c99
-                        compiler.PreprocessorDefines.Add("NO_snprintf");
-                        compiler.PreprocessorDefines.Add("NO_vsnprintf");
+                        preprocessor.PreprocessorDefines.Add("NO_snprintf");
+                        preprocessor.PreprocessorDefines.Add("NO_vsnprintf");
 
                         // flip the normal rules of visibility - make everything visible, and hide internals
-                        compiler.PreprocessorDefines.Add("HAVE_HIDDEN");
+                        preprocessor.PreprocessorDefines.Add("HAVE_HIDDEN");
                         gccCompiler.Visibility = GccCommon.EVisibility.Default;
                     }
 
@@ -181,10 +186,10 @@ namespace zlib
                         clangCompiler.ExtraWarnings = true;
                         clangCompiler.Pedantic = true;
 
-                        compiler.PreprocessorDefines.Add("HAVE_UNISTD_H"); // for lseek etc
+                        preprocessor.PreprocessorDefines.Add("HAVE_UNISTD_H"); // for lseek etc
 
                         // flip the normal rules of visibility - make everything visible, and hide internals
-                        compiler.PreprocessorDefines.Add("HAVE_HIDDEN");
+                        preprocessor.PreprocessorDefines.Add("HAVE_HIDDEN");
                         clangCompiler.Visibility = ClangCommon.EVisibility.Default;
                     }
                 });
