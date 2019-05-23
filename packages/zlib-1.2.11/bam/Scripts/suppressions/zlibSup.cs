@@ -53,6 +53,8 @@ namespace zlib
         {
             public Zlib()
             {
+                this.Add("infback.c", GccCommon.ToolchainVersion.GCC_7, null, "implicit-fallthrough");
+                this.Add("inflate.c", GccCommon.ToolchainVersion.GCC_7, null, "implicit-fallthrough");
             }
         }
     }
