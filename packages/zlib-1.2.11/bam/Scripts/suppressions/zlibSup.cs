@@ -42,8 +42,8 @@ namespace zlib
                 this.Add("gzread.c", "4996", "4245", "4267");
                 this.Add("gzwrite.c", "4996", "4267");
                 this.Add("trees.c", "4244");
-                this.Add("infback.c", VisualCCommon.ToolchainVersion.VC2013, VisualCCommon.ToolchainVersion.VC2013, "4127");
-                this.Add("inflate.c", VisualCCommon.ToolchainVersion.VC2013, VisualCCommon.ToolchainVersion.VC2013, "4127");
+                this.Add("infback.c", VisualCCommon.ToolchainVersion.VC2012, VisualCCommon.ToolchainVersion.VC2013, "4127");
+                this.Add("inflate.c", VisualCCommon.ToolchainVersion.VC2012, VisualCCommon.ToolchainVersion.VC2013, "4127");
             }
         }
     }
