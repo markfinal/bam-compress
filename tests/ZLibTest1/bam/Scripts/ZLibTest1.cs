@@ -63,6 +63,15 @@ namespace ZLibTest1
                     clangCompiler.Pedantic = true;
                 }
             });
+
+            this.PrivatePatch(settings =>
+            {
+                if (settings is GccCommon.ICommonLinkerSettings gccLinker)
+                {
+                    gccLinker.CanUseOrigin = true;
+                    gccLinker.RPath.AddUnique("$ORIGIN");
+                }
+            });
         }
     }
 

@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "zlib.h"
 
 #include <iostream>
+#include <cstring>
 #include <cctype>
 
 #define CHUNK_SIZE 16384
