@@ -52,8 +52,8 @@ int main()
         return -1;
     }
 
-    const int originalLength = strlen(in_buffer);
-    stream.avail_in = originalLength;
+    const size_t originalLength = strlen(in_buffer);
+    stream.avail_in = static_cast<int>(originalLength);
     stream.next_in = (Bytef*)in_buffer;
 
     std::cout << "Original size: " << originalLength << std::endl;
