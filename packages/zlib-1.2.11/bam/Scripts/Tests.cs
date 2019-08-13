@@ -36,10 +36,9 @@ namespace zlib
             C.ConsoleApplication
         {
             protected override void
-            Init(
-                Bam.Core.Module parent)
+            Init()
             {
-                base.Init(parent);
+                base.Init();
 
                 var source = this.CreateCSourceContainer("$(packagedir)/test/example.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
@@ -93,10 +92,9 @@ namespace zlib
             C.ConsoleApplication
         {
             protected override void
-            Init(
-                Bam.Core.Module parent)
+            Init()
             {
-                base.Init(parent);
+                base.Init();
 
                 var source = this.CreateCSourceContainer("$(packagedir)/test/infcover.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
@@ -118,10 +116,9 @@ namespace zlib
             C.ConsoleApplication
         {
             protected override void
-            Init(
-                Bam.Core.Module parent)
+            Init()
             {
-                base.Init(parent);
+                base.Init();
 
                 var source = this.CreateCSourceContainer("$(packagedir)/test/minigzip.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
@@ -173,10 +170,9 @@ namespace zlib
             Publisher.Collation
         {
             protected override void
-            Init(
-                Bam.Core.Module parent)
+            Init()
             {
-                base.Init(parent);
+                base.Init();
 
                 this.SetDefaultMacrosAndMappings(EPublishingType.ConsoleApplication);
 
