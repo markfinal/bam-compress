@@ -40,7 +40,7 @@ namespace zlib
             {
                 base.Init();
 
-                var source = this.CreateCSourceContainer("$(packagedir)/test/example.c");
+                var source = this.CreateCSourceCollection("$(packagedir)/test/example.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
 
                 source.PrivatePatch(settings =>
@@ -96,7 +96,7 @@ namespace zlib
             {
                 base.Init();
 
-                var source = this.CreateCSourceContainer("$(packagedir)/test/infcover.c");
+                var source = this.CreateCSourceCollection("$(packagedir)/test/infcover.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
 
                 this.PrivatePatch(settings =>
@@ -120,7 +120,7 @@ namespace zlib
             {
                 base.Init();
 
-                var source = this.CreateCSourceContainer("$(packagedir)/test/minigzip.c");
+                var source = this.CreateCSourceCollection("$(packagedir)/test/minigzip.c");
                 this.CompileAndLinkAgainst<ZLib>(source);
 
                 source.PrivatePatch(settings =>

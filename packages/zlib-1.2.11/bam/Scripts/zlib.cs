@@ -57,8 +57,8 @@ namespace zlib
 
             this.SetSemanticVersion(1, 2, 11);
 
-            this.CreateHeaderContainer("$(packagedir)/*.h");
-            var source = this.CreateCSourceContainer("$(packagedir)/*.c");
+            this.CreateHeaderCollection("$(packagedir)/*.h");
+            var source = this.CreateCSourceCollection("$(packagedir)/*.c");
 
             if (source.Compiler is VisualCCommon.CompilerBase)
             {
