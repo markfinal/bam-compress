@@ -73,14 +73,6 @@ namespace zlib
                 source.SuppressWarningsDelegate(new Clang.WarningSuppression.Zlib());
             }
 
-            this.PublicPatch((settings, appliedTo) =>
-                {
-                    if (settings is C.ICommonPreprocessorSettings preprocessor)
-                    {
-                        preprocessor.IncludePaths.AddUnique(this.CreateTokenizedString("$(packagedir)"));
-                    }
-                });
-
             source.PrivatePatch(settings =>
                 {
                     var preprocessor = settings as C.ICommonPreprocessorSettings;

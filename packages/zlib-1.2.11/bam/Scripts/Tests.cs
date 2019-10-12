@@ -41,7 +41,7 @@ namespace zlib
                 base.Init();
 
                 var source = this.CreateCSourceCollection("$(packagedir)/test/example.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
+                this.UseSDK<SDK>(source);
 
                 source.PrivatePatch(settings =>
                     {
@@ -97,7 +97,7 @@ namespace zlib
                 base.Init();
 
                 var source = this.CreateCSourceCollection("$(packagedir)/test/infcover.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
+                this.UseSDK<ZLibSDK>(source);
 
                 this.PrivatePatch(settings =>
                     {
@@ -121,7 +121,7 @@ namespace zlib
                 base.Init();
 
                 var source = this.CreateCSourceCollection("$(packagedir)/test/minigzip.c");
-                this.CompileAndLinkAgainst<ZLib>(source);
+                this.UseSDK<SDK>(source);
 
                 source.PrivatePatch(settings =>
                     {
