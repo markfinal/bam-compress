@@ -46,9 +46,9 @@ namespace zlib
                 this.DependsOn(versionScript);
                 this.PrivatePatch(settings =>
                     {
-                        if (settings is GccCommon.ICommonLinkerSettings gccLinker)
+                        if (settings is C.ICommonLinkerSettingsLinux linuxLinker)
                         {
-                            gccLinker.VersionScript = versionScript.InputPath;
+                            linuxLinker.VersionScript = versionScript.InputPath;
                         }
                     });
             }
