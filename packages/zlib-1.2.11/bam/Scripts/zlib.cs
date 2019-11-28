@@ -49,6 +49,7 @@ namespace zlib
                         if (settings is C.ICommonLinkerSettingsLinux linuxLinker)
                         {
                             linuxLinker.VersionScript = versionScript.InputPath;
+                            linuxLinker.SharedObjectName = this.CreateTokenizedString("$(dynamicprefix)$(OutputName)$(sonameext)");
                         }
                     });
             }
