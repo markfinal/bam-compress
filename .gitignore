@@ -1,3 +1,5 @@
 PackageDebug
 build
 prebuiltsdks
+*.pyc
+tests/Logs
