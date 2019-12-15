@@ -63,16 +63,14 @@ namespace zlib
 
             source.PrivatePatch(settings =>
                 {
-                    var preprocessor = settings as C.ICommonPreprocessorSettings;
-
-                    var cCompiler = settings as C.ICOnlyCompilerSettings;
-                    cCompiler.LanguageStandard = C.ELanguageStandard.C99;
+                    //var cCompiler = settings as C.ICOnlyCompilerSettings;
+                    //cCompiler.LanguageStandard = C.ELanguageStandard.C99;
 
                     if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                     {
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
-                        preprocessor.PreprocessorDefines.Add("_WINDOWS");
-                        preprocessor.PreprocessorDefines.Add("ZLIB_DLL");
+                        //preprocessor.PreprocessorDefines.Add("_WINDOWS");
+                        //preprocessor.PreprocessorDefines.Add("ZLIB_DLL");
                     }
                     if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                     {
@@ -92,11 +90,17 @@ namespace zlib
                         // because this is not c99
                         preprocessor.PreprocessorDefines.Add("NO_snprintf");
                         preprocessor.PreprocessorDefines.Add("NO_vsnprintf");
-
-                        // flip the normal rules of visibility - make everything visible, and hide internals
-                        preprocessor.PreprocessorDefines.Add("HAVE_HIDDEN");
                         */
-                        gccCompiler.Visibility = GccCommon.EVisibility.Default;
+
+                        if (this is C.IDynamicLibrary)
+                        {
+                            // flip the normal rules of visibility - make everything visible, and hide internals
+                            gccCompiler.Visibility = GccCommon.EVisibility.Default;
+                            if (settings is C.ICommonPreprocessorSettings preprocessor)
+                            {
+                                preprocessor.PreprocessorDefines.Add("HAVE_HIDDEN");
+                            }
+                        }
                     }
                     if (settings is ClangCommon.ICommonCompilerSettings clangCompiler)
                     {
@@ -105,11 +109,17 @@ namespace zlib
                         clangCompiler.Pedantic = true;
                         /*
                         preprocessor.PreprocessorDefines.Add("HAVE_UNISTD_H"); // for lseek etc
-
-                        // flip the normal rules of visibility - make everything visible, and hide internals
-                        preprocessor.PreprocessorDefines.Add("HAVE_HIDDEN");
-                        clangCompiler.Visibility = ClangCommon.EVisibility.Default;
                         */
+
+                        if (this is C.IDynamicLibrary)
+                        {
+                            // flip the normal rules of visibility - make everything visible, and hide internals
+                            clangCompiler.Visibility = ClangCommon.EVisibility.Default;
+                            if (settings is C.ICommonPreprocessorSettings preprocessor)
+                            {
+                                preprocessor.PreprocessorDefines.Add("HAVE_HIDDEN");
+                            }
+                        }
                     }
                 });
 
