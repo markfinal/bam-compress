@@ -42,12 +42,13 @@ namespace ZLibTest1
 
             source.PrivatePatch(settings =>
             {
-                var compiler = settings as C.ICommonCompilerSettings;
-                compiler.WarningsAsErrors = true;
-
                 var cxxCompiler = settings as C.ICxxOnlyCompilerSettings;
                 cxxCompiler.ExceptionHandler = C.Cxx.EExceptionHandler.Asynchronous;
 
+                if (settings is C.ICommonCompilerSettings compiler)
+                {
+                    compiler.WarningsAsErrors = true;
+                }
                 if (settings is VisualCCommon.ICommonCompilerSettings vcCompiler)
                 {
                     vcCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
