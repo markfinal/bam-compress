@@ -71,6 +71,13 @@ namespace zlib
                         visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                         //preprocessor.PreprocessorDefines.Add("_WINDOWS");
                         //preprocessor.PreprocessorDefines.Add("ZLIB_DLL");
+                        if (this is C.IDynamicLibrary)
+                        {
+                            if (settings is C.ICommonPreprocessorSettings preprocessor)
+                            {
+                                preprocessor.PreprocessorDefines.Add("ZLIB_DLL");
+                            }
+                        }
                     }
                     if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
                     {
