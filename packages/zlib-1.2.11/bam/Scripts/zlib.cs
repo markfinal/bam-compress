@@ -33,8 +33,14 @@ namespace zlib
     [Bam.Core.ModuleGroup("Thirdparty/Zlib")]
     [C.Thirdparty("$(packagedir)/win32/zlib1.rc")]
     class ZLib :
-        C.DynamicLibrary
+        C.DynamicLibrary,
+        C.IPublicHeaders
     {
+        Bam.Core.StringArray C.IPublicHeaders.PublicHeaders { get; } = new Bam.Core.StringArray(
+            "zlib.h",
+            "zconf.h"
+        );
+
         protected override void
         Init()
         {

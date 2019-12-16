@@ -33,19 +33,6 @@ namespace zlib
     class SDK :
         C.SDKTemplate
     {
-        private readonly Bam.Core.StringArray headers;
-        private readonly Bam.Core.TypeArray libraryTypes = new Bam.Core.TypeArray(typeof(ZLib));
-
-        public SDK()
-        {
-            this.headers = new Bam.Core.StringArray
-            {
-                "zlib.h",
-                "zconf.h"
-            };
-        }
-
-        protected override Bam.Core.StringArray HeaderFiles => this.headers;
-        protected override Bam.Core.TypeArray LibraryModuleTypes => this.libraryTypes;
+        protected override Bam.Core.TypeArray LibraryModuleTypes { get; } = new Bam.Core.TypeArray(typeof(ZLib));
     }
 }
