@@ -33,6 +33,6 @@ namespace zlib
     class SDK :
         C.SDKTemplate
     {
-        protected override Bam.Core.TypeArray LibraryModuleTypes { get; } = new Bam.Core.TypeArray(typeof(ZLib));
+        public override Bam.Core.TypeArray LibraryModuleTypes { get; } = new Bam.Core.TypeArray(typeof(ZLib));
     }
 }
