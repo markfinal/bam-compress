@@ -47,7 +47,7 @@ namespace zlib
             get
             {
                 string contents = string.Empty;
-                using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.Macros["templateConfig"].ToString()))
+                using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.Macros.FromName("templateConfig").ToString()))
                 {
                     contents = streamReader.ReadToEnd();
                 }

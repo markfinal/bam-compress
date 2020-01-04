@@ -62,7 +62,7 @@ namespace zlib
                     });
             }
 
-            this.Macros[Bam.Core.ModuleMacroNames.OutputName] = Bam.Core.TokenizedString.CreateVerbatim("zlib");
+            this.Macros.FromName(Bam.Core.ModuleMacroNames.OutputName).SetVerbatim("zlib");
 
             this.SetSemanticVersion(1, 2, 11);
 
