@@ -32,7 +32,7 @@ namespace zlib
     namespace tests
     {
         [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
-        class example :
+        class Example :
             C.ConsoleApplication
         {
             protected override void
@@ -40,8 +40,11 @@ namespace zlib
             {
                 base.Init();
 
+                this.Macros.FromName("OutputName").SetVerbatim("example");
+
                 var source = this.CreateCSourceCollection("$(packagedir)/test/example.c");
-                this.UseSDK<SDK>(source);
+                source.CompileAgainstSDK<SDK>();
+                this.LinkAgainstSDK<SDK>();
 
                 source.PrivatePatch(settings =>
                     {
@@ -50,7 +53,7 @@ namespace zlib
 
                         if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                         {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
+                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                         }
 
                         if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
@@ -88,7 +91,7 @@ namespace zlib
 
 #if false
         [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
-        class infocover :
+        class Infcover :
             C.ConsoleApplication
         {
             protected override void
@@ -96,15 +99,18 @@ namespace zlib
             {
                 base.Init();
 
+                this.Macros.FromName("OutputName").SetVerbatim("infcover");
+
                 var source = this.CreateCSourceCollection("$(packagedir)/test/infcover.c");
-                this.UseSDK<ZLibSDK>(source);
+                source.CompileAgainstSDK<SDK>();
+                this.LinkAgainstSDK<SDK>();
 
                 this.PrivatePatch(settings =>
                     {
-                        if (settings is GccCommon.ICommonLinkerSettings gccLinker)
+                        if (settings is C.ICommonLinkerSettingsLinux linuxLinker)
                         {
-                            gccLinker.CanUseOrigin = true;
-                            gccLinker.RPath.AddUnique("$ORIGIN");
+                            linuxLinker.CanUseOrigin = true;
+                            linuxLinker.RPath.AddUnique("$ORIGIN");
                         }
                     });
             }
@@ -112,7 +118,7 @@ namespace zlib
 #endif
 
         [Bam.Core.ModuleGroup("Thirdparty/Zlib/tests")]
-        class minigzip :
+        class Minigzip :
             C.ConsoleApplication
         {
             protected override void
@@ -120,8 +126,11 @@ namespace zlib
             {
                 base.Init();
 
+                this.Macros.FromName("OutputName").SetVerbatim("minigzip");
+
                 var source = this.CreateCSourceCollection("$(packagedir)/test/minigzip.c");
-                this.UseSDK<SDK>(source);
+                source.CompileAgainstSDK<SDK>();
+                this.LinkAgainstSDK<SDK>();
 
                 source.PrivatePatch(settings =>
                     {
@@ -130,7 +139,7 @@ namespace zlib
 
                         if (settings is VisualCCommon.ICommonCompilerSettings visualCCompiler)
                         {
-                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level2;
+                            visualCCompiler.WarningLevel = VisualCCommon.EWarningLevel.Level4;
                         }
 
                         if (settings is MingwCommon.ICommonCompilerSettings mingwCompiler)
@@ -142,7 +151,7 @@ namespace zlib
 
                         if (settings is GccCommon.ICommonCompilerSettings gccCompiler)
                         {
-                            gccCompiler.AllWarnings = false;
+                            gccCompiler.AllWarnings = true;
                             gccCompiler.ExtraWarnings = true;
                             gccCompiler.Pedantic = true;
                         }
