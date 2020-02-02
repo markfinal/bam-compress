@@ -38,7 +38,8 @@ namespace ZLibTest1
             base.Init();
 
             var source = this.CreateCxxSourceCollection("$(packagedir)/source/*.cpp");
-            this.UseSDK<zlib.SDK>(source);
+            source.CompileAgainstSDK<zlib.SDK>();
+            this.LinkAgainstSDK<zlib.SDK>();
 
             source.PrivatePatch(settings =>
             {
